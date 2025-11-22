@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
+	"net/http"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -17,6 +19,36 @@ type Weather struct {
 	Latitude           float64 `json:"latitude"`
 	Longitude          float64 `json:"longitude"`
 	CurrentTemperature float64 `json:"current_temperature"`
+	Time               string  `json:"time"`
+}
+
+func req_api(w Weather) {
+	url := "http://localhost:3000/weather"
+	jsonBody, err := json.Marshal(w)
+
+	if err != nil {
+		failOnError(err, "Failed to marshal weather data")
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewReader(jsonBody))
+	req.Header.Set("Content-Type", "application/json")
+
+	if err != nil {
+		failOnError(err, "Failed to create request")
+	}
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+
+	if err != nil {
+		failOnError(err, "Failed to send request")
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+		failOnError(err, "Failed to post weather data")
+	}
 }
 
 func main() {
@@ -78,8 +110,9 @@ func main() {
 				log.Printf("Failed to decode message: %s", err)
 				continue
 			}
-			log.Printf("Received latitude: %v", w)
+			req_api(w)
 		}
+		close(forever)
 	}()
 
 	log.Printf(" [*] Waiting for logs. To exit press CTRL+C")
