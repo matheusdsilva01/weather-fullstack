@@ -10,7 +10,8 @@ def req_api():
             formattedData = {
                 "latitude": data.get("latitude"),
                 "longitude": data.get("longitude"),
-                "current_temperature": data.get("current").get("temperature_2m")
+                "current_temperature": data.get("current").get("temperature_2m"),
+                "time": data.get("current").get("time")
             }
             return formattedData
         else:
@@ -33,14 +34,12 @@ def send_job():
     channel.basic_publish(exchange='weather',
                         routing_key='weather_queue',
                         body=message,
-                        properties=pika.BasicProperties(
-                            content_type='application/json',
-                        ))
+                        )
     print(f" [x] Sent {message} at {time.strftime('%Y-%m-%d %H:%M:%S')}")
     connection.close()
 
 send_job()
-schedule.every(15).seconds.do(send_job)
+schedule.every(15).minutes.do(send_job)
 print("Running scheduled task...")
 
 while True:
