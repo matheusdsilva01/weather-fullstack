@@ -13,19 +13,15 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
+import { useAuth } from "@/context/AuthContext"
 import { login } from "@/services/login"
 import { useMutation } from "@tanstack/react-query"
-import { useState } from "react"
-import { Spinner } from "./ui/spinner"
-import { toast } from "sonner"
 import { useNavigate, useSearch } from "@tanstack/react-router"
-import { useAuth } from "@/context/AuthContext"
+import { useState } from "react"
+import { toast } from "sonner"
+import { Spinner } from "./ui/spinner"
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
@@ -52,7 +48,7 @@ export function LoginForm({
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className="flex flex-col gap-6">
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
