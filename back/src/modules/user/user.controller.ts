@@ -2,19 +2,18 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Put,
   Query,
-  Req,
   UseGuards,
 } from '@nestjs/common';
-import { PayloadDTO } from '../auth/dto/payload.dto';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { PaginationResultDTO } from '../shared/dto/pagination-result.dto';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
-import { UserService } from './user.service';
-import { PaginationResultDTO } from '../shared/dto/pagination-result.dto';
 import { UserDTO } from './dto/user.dto';
+import { UserService } from './user.service';
 
 @UseGuards(AuthGuard)
 @Controller('user')
@@ -37,13 +36,8 @@ export class UserController {
     });
   }
 
-  @Put()
-  update(
-    @Req() req: Request & { user: PayloadDTO },
-    @Body() payload: UpdateUserDTO,
-  ) {
-    const id = req.user.sub;
-
+  @Put(':id')
+  update(@Param('id') id: string, @Body() payload: UpdateUserDTO) {
     return this.userService.updateUser(id, payload);
   }
 }
