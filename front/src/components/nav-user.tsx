@@ -19,16 +19,13 @@ import {
 } from "@/components/ui/sidebar"
 import { useAuth } from "@/context/AuthContext"
 import { useNavigate } from "@tanstack/react-router"
+import type { User } from "@/types/user"
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
+type NavUserProps = {
+    user: User
+}
+
+export function NavUser({ user }: NavUserProps) {
   const { isMobile } = useSidebar()
   const { logout } = useAuth()
   const navigate = useNavigate()

@@ -14,23 +14,24 @@ import {
 } from "@/components/ui/sidebar"
 import { NavUser } from "./nav-user"
 import { appRoutes, isActiveRoute } from "@/lib/routes"
+import { useQuery } from "@tanstack/react-query"
+import { getAuthUser } from "@/services/profile"
 
 // This is sample data.
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: appRoutes,
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: user } = useQuery({
+    queryKey: ['auth-user'],
+    queryFn: getAuthUser
+  })
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <NavUser user={data.user} />
+        <NavUser user={user ?? { email: "" }} />
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
