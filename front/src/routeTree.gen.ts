@@ -14,8 +14,8 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
 import { Route as AuthUsersRouteImport } from './routes/_auth/users'
-import { Route as AuthUpdateUserRouteImport } from './routes/_auth/update-user'
 import { Route as AuthAboutRouteImport } from './routes/_auth/about'
+import { Route as AuthUpdateUserIdRouteImport } from './routes/_auth/update-user.$id'
 
 const SignUpRoute = SignUpRouteImport.update({
   id: '/sign-up',
@@ -41,14 +41,14 @@ const AuthUsersRoute = AuthUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AuthRoute,
 } as any)
-const AuthUpdateUserRoute = AuthUpdateUserRouteImport.update({
-  id: '/update-user',
-  path: '/update-user',
-  getParentRoute: () => AuthRoute,
-} as any)
 const AuthAboutRoute = AuthAboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthUpdateUserIdRoute = AuthUpdateUserIdRouteImport.update({
+  id: '/update-user/$id',
+  path: '/update-user/$id',
   getParentRoute: () => AuthRoute,
 } as any)
 
@@ -56,17 +56,17 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRoute
   '/about': typeof AuthAboutRoute
-  '/update-user': typeof AuthUpdateUserRoute
   '/users': typeof AuthUsersRoute
   '/': typeof AuthIndexRoute
+  '/update-user/$id': typeof AuthUpdateUserIdRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRoute
   '/about': typeof AuthAboutRoute
-  '/update-user': typeof AuthUpdateUserRoute
   '/users': typeof AuthUsersRoute
   '/': typeof AuthIndexRoute
+  '/update-user/$id': typeof AuthUpdateUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -74,24 +74,30 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRoute
   '/_auth/about': typeof AuthAboutRoute
-  '/_auth/update-user': typeof AuthUpdateUserRoute
   '/_auth/users': typeof AuthUsersRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_auth/update-user/$id': typeof AuthUpdateUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/sign-up' | '/about' | '/update-user' | '/users' | '/'
+  fullPaths:
+    | '/login'
+    | '/sign-up'
+    | '/about'
+    | '/users'
+    | '/'
+    | '/update-user/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/sign-up' | '/about' | '/update-user' | '/users' | '/'
+  to: '/login' | '/sign-up' | '/about' | '/users' | '/' | '/update-user/$id'
   id:
     | '__root__'
     | '/_auth'
     | '/login'
     | '/sign-up'
     | '/_auth/about'
-    | '/_auth/update-user'
     | '/_auth/users'
     | '/_auth/'
+    | '/_auth/update-user/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -137,13 +143,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUsersRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/_auth/update-user': {
-      id: '/_auth/update-user'
-      path: '/update-user'
-      fullPath: '/update-user'
-      preLoaderRoute: typeof AuthUpdateUserRouteImport
-      parentRoute: typeof AuthRoute
-    }
     '/_auth/about': {
       id: '/_auth/about'
       path: '/about'
@@ -151,21 +150,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAboutRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/update-user/$id': {
+      id: '/_auth/update-user/$id'
+      path: '/update-user/$id'
+      fullPath: '/update-user/$id'
+      preLoaderRoute: typeof AuthUpdateUserIdRouteImport
+      parentRoute: typeof AuthRoute
+    }
   }
 }
 
 interface AuthRouteChildren {
   AuthAboutRoute: typeof AuthAboutRoute
-  AuthUpdateUserRoute: typeof AuthUpdateUserRoute
   AuthUsersRoute: typeof AuthUsersRoute
   AuthIndexRoute: typeof AuthIndexRoute
+  AuthUpdateUserIdRoute: typeof AuthUpdateUserIdRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthAboutRoute: AuthAboutRoute,
-  AuthUpdateUserRoute: AuthUpdateUserRoute,
   AuthUsersRoute: AuthUsersRoute,
   AuthIndexRoute: AuthIndexRoute,
+  AuthUpdateUserIdRoute: AuthUpdateUserIdRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
