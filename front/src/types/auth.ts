@@ -1,6 +1,5 @@
 export type LoginPayload = {
     email: string;
-    name: string;
     password: string;
 };
 
