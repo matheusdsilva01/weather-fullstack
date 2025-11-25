@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -36,6 +37,10 @@ export class UserController {
     });
   }
 
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.userService.deleteUser(id);
+  }
   @Put(':id')
   update(@Param('id') id: string, @Body() payload: UpdateUserDTO) {
     return this.userService.updateUser(id, payload);

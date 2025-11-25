@@ -78,4 +78,14 @@ export class UserService {
 
     return result;
   }
+
+  async deleteUser(id: string): Promise<boolean> {
+    const existsUser = await this.userModel.findOne({ _id: id }).exec();
+
+    if (!existsUser) {
+      throw new NotFoundException('User not found');
+    }
+    await this.userModel.deleteOne({ _id: id }).exec();
+    return true;
+  }
 }
