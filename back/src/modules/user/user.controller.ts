@@ -5,6 +5,7 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
+@UseGuards(AuthGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -14,14 +15,13 @@ export class UserController {
     return this.userService.create(payload);
   }
 
-  @UseGuards(AuthGuard)
   @Put()
   update(
     @Req() req: Request & { user: PayloadDTO },
     @Body() payload: UpdateUserDTO,
   ) {
-    const id = req.user.id;
-    console.log(id);
+    const id = req.user.sub;
+
     return this.userService.updateUser(id, payload);
   }
 }
