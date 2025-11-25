@@ -2,28 +2,28 @@
 
 import {
   BadgeCheck,
-    ChevronsUpDown,
-    LogOut
+  ChevronsUpDown,
+  LogOut
 } from "lucide-react"
 
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import {
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-    useSidebar,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import { useAuth } from "@/context/AuthContext"
+import type { AuthUser } from "@/types/user"
 import { useNavigate } from "@tanstack/react-router"
-import type { User } from "@/types/user"
 
 type NavUserProps = {
-    user: User
+    user: AuthUser
 }
 
 export function NavUser({ user }: NavUserProps) {
@@ -50,7 +50,8 @@ export function NavUser({ user }: NavUserProps) {
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar> */}
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.email}</span>
+                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate text-xs">{user.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -61,7 +62,7 @@ export function NavUser({ user }: NavUserProps) {
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuItem onClick={() => navigate({ to: '/update-user' })}>
+            <DropdownMenuItem onClick={() => navigate({ to: `/update-user/${user.sub}` })}>
               <BadgeCheck />
               Account
             </DropdownMenuItem>

@@ -12,21 +12,28 @@ import {
   FieldLabel
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Route } from "@/routes/_auth/update-user.$id"
 import { updateUser } from "@/services/update-user"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 import { toast } from "sonner"
 import { Spinner } from "./ui/spinner"
 
 export function UpdateUserForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const params = Route.useParams()
+
   const [name, setName] = useState("")
   const navigate = useNavigate()
 
+  const queryClient = useQueryClient()
   const { mutate, isPending } = useMutation({
     mutationKey: ['update-user'],
     mutationFn: updateUser,
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['auth-user']
+      })
       navigate({ to: '/' })
       toast.success('Account updated successfully!')
     },
@@ -38,7 +45,7 @@ export function UpdateUserForm({ ...props }: React.ComponentProps<typeof Card>) 
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
-    mutate({ name })
+    mutate({ id: params.id, name })
   }
 
   return (
