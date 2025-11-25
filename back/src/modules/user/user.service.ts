@@ -9,10 +9,37 @@ import { User } from './schemas/user.schema';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { encryptPassword } from './util/encryption';
 import { UpdateUserDTO } from './dto/update-user.dto';
+import { PaginationQueryDTO } from '../shared/dto/pagination-query.dto';
+import { PaginationResultDTO } from '../shared/dto/pagination-result.dto';
+import { UserDTO } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  async list(
+    params: PaginationQueryDTO,
+  ): Promise<PaginationResultDTO<UserDTO[]>> {
+    const { page = 1, pageSize = 10 } = params;
+    const skip = (page - 1) * pageSize;
+    const result = await this.userModel
+      .find()
+      .skip(skip)
+      .limit(pageSize)
+      .select({
+        password: 0,
+        __v: 0,
+      })
+      .exec();
+    const totalItems = await this.userModel.countDocuments().exec();
+
+    return new PaginationResultDTO<UserDTO[]>({
+      items: result,
+      totalItems: totalItems,
+      totalPages: Math.ceil(totalItems / pageSize),
+      currentPage: page,
+      itemsPerPage: pageSize,
+    });
+  }
 
   async findOne(email: string): Promise<User | null> {
     return await this.userModel.findOne({ email }).exec();
