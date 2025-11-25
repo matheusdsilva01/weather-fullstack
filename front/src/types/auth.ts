@@ -6,3 +6,5 @@ export type LoginPayload = {
 export type AuthResponse = {
     access_token: string;
 };
+
+export type SignUpPayload = LoginPayload;
