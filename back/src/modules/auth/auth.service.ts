@@ -22,7 +22,6 @@ export class AuthService {
 
     const payload = new PayloadDTO({
       sub: user._id.toString(),
-      id: user._id.toString(),
       name: user.name,
       email: user.email,
     });
