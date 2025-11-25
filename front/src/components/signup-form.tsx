@@ -22,6 +22,7 @@ import { Spinner } from "./ui/spinner"
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate()
 
@@ -40,7 +41,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
-    mutate({ email, password })
+    mutate({ email, password, name })
   }
 
   return (
@@ -62,6 +63,17 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                 id="email"
                 type="email"
                 placeholder="m@example.com"
+                required
+              />
+            </Field>
+            <Field>
+              <FieldLabel htmlFor="name">Name</FieldLabel>
+              <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                id="name"
+                type="text"
+                placeholder="Your name"
                 required
               />
             </Field>
