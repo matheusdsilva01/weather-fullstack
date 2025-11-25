@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const isAuthenticated = !!token;
 
     const login = (newToken: string) => {
-        Cookies.set("token", newToken, { expires: 1 / 1440 }); // Expires in 1 minute
+        Cookies.set("token", newToken, { expires: 1 / 24 }); // Expires in 1 hour
         setToken(newToken);
     };
 
