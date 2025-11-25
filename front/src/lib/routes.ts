@@ -15,6 +15,7 @@ export const appRoutes: AppRoutes[] = [
         items: [
             { title: "Home", url: "/" },
             { title: "About", url: "/about" },
+            { title: "Users", url: "/users" },
         ],
     }
 ]
