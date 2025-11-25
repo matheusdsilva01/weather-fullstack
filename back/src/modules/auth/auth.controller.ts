@@ -12,10 +12,14 @@ import { AuthService } from './auth.service';
 import { SignInDTO } from './dto/sign-in.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { PayloadDTO } from './dto/payload.dto';
+import { UserService } from '../user/user.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
@@ -26,6 +30,6 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('profile')
   getProfile(@Req() req: Request & { user: PayloadDTO }) {
-    return req.user;
+    return this.userService.findOneById(req.user.sub);
   }
 }
