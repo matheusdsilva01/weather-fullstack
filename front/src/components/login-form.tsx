@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { useAuth } from "@/context/AuthContext"
 import { login } from "@/services/login"
 import { useMutation } from "@tanstack/react-query"
-import { useNavigate, useSearch } from "@tanstack/react-router"
+import { Link, useNavigate, useSearch } from "@tanstack/react-router"
 import { useState } from "react"
 import { toast } from "sonner"
 import { Spinner } from "./ui/spinner"
@@ -83,7 +83,7 @@ export function LoginForm() {
                   Login
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  Don&apos;t have an account? <Link to="/sign-up">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
