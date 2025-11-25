@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  BadgeCheck,
     ChevronsUpDown,
     LogOut
 } from "lucide-react"
@@ -60,6 +61,10 @@ export function NavUser({ user }: NavUserProps) {
             align="end"
             sideOffset={4}
           >
+            <DropdownMenuItem onClick={() => navigate({ to: '/update-user' })}>
+              <BadgeCheck />
+              Account
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleLogout()}>
               <LogOut />
               Log out
