@@ -65,6 +65,26 @@ function RouteComponent() {
                 </div>
               </CardContent>
             </Card>
+            <Card>
+              <CardHeader className='grid-cols-2'>
+                <CardTitle>Condições atmosféricas</CardTitle>
+                <Wind className="ml-auto text-zinc-400" />
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-medium">Chuva:</span>
+                  <span>{weather.precipitation} mm</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">Cobertura de nuvens:</span>
+                  <span>{weather.cloud_cover}%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium">Umidade relativa:</span>
+                  <span>{weather.relative_humidity}%</span>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         ) : (
           <div className="text-center text-red-500">Não foi possível carregar os dados do clima.</div>

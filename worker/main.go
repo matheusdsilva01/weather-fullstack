@@ -24,6 +24,10 @@ type Weather struct {
 	WindDirection       float64 `json:"wind_direction"`
 	WindGusts           float64 `json:"wind_gusts"`
 	ApparentTemperature float64 `json:"apparent_temperature"`
+	Precipitation       float64 `json:"precipitation"`
+	CloudCover          float64 `json:"cloud_cover"`
+	RelativeHumidity    float64 `json:"relative_humidity"`
+	WeatherCode         int     `json:"weather_code"`
 }
 
 func req_api(w Weather) {

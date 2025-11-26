@@ -1,7 +1,7 @@
 import pika, time, schedule, requests, json
 
 def req_api():
-    api_url = "https://api.open-meteo.com/v1/forecast?latitude=-2.569&longitude=-44.242&current=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,apparent_temperature"
+    api_url = "https://api.open-meteo.com/v1/forecast?latitude=-2.569&longitude=-44.242&current=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,apparent_temperature,precipitation,cloud_cover,relative_humidity_2m,weather_code"
     try:
         response = requests.get(api_url)
         if response.status_code == 200:
@@ -15,7 +15,11 @@ def req_api():
                 "wind_speed": data.get("current").get("wind_speed_10m"),
                 "wind_direction": data.get("current").get("wind_direction_10m"),
                 "wind_gusts": data.get("current").get("wind_gusts_10m"),
-                "apparent_temperature": data.get("current").get("apparent_temperature")
+                "apparent_temperature": data.get("current").get("apparent_temperature"),
+                "precipitation": data.get("current").get("precipitation"),
+                "cloud_cover": data.get("current").get("cloud_cover"),
+                "relative_humidity": data.get("current").get("relative_humidity_2m"),
+                "weather_code": data.get("current").get("weather_code")
             }
             return formattedData
         else:

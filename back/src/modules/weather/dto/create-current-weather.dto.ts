@@ -7,4 +7,8 @@ export class CreateCurrentWeatherDTO {
   wind_direction: number;
   wind_gusts: number;
   apparent_temperature: number;
+  precipitation: number;
+  cloud_cover: number;
+  relative_humidity: number;
+  weather_code: number;
 }

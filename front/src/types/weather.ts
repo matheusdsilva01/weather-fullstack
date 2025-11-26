@@ -8,4 +8,8 @@ export type Weather = {
     wind_direction: number;
     wind_speed: number;
     wind_gusts: number;
+    precipitation: number;
+    cloud_cover: number;
+    relative_humidity: number;
+    weather_code: number;
 }
