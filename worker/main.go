@@ -16,10 +16,14 @@ func failOnError(err error, msg string) {
 }
 
 type Weather struct {
-	Latitude           float64 `json:"latitude"`
-	Longitude          float64 `json:"longitude"`
-	CurrentTemperature float64 `json:"current_temperature"`
-	Time               string  `json:"time"`
+	Latitude            float64 `json:"latitude"`
+	Longitude           float64 `json:"longitude"`
+	CurrentTemperature  float64 `json:"current_temperature"`
+	Time                string  `json:"time"`
+	WindSpeed           float64 `json:"wind_speed"`
+	WindDirection       float64 `json:"wind_direction"`
+	WindGusts           float64 `json:"wind_gusts"`
+	ApparentTemperature float64 `json:"apparent_temperature"`
 }
 
 func req_api(w Weather) {
@@ -49,6 +53,7 @@ func req_api(w Weather) {
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
 		failOnError(err, "Failed to post weather data")
 	}
+	log.Printf("Successfully posted weather data: %+v", w)
 }
 
 func main() {
@@ -72,19 +77,19 @@ func main() {
 	failOnError(err, "Failed to declare an exchange")
 
 	q, err := ch.QueueDeclare(
-		"weather_queue", // name
-		false,           // durable
-		false,           // delete when unused
-		false,           // exclusive
-		false,           // no-wait
-		nil,             // arguments
+		"current_weather_queue", // name
+		false,                   // durable
+		false,                   // delete when unused
+		false,                   // exclusive
+		false,                   // no-wait
+		nil,                     // arguments
 	)
 	failOnError(err, "Failed to declare a queue")
 
 	err = ch.QueueBind(
-		q.Name,          // queue name
-		"weather_queue", // routing key
-		"weather",       // exchange
+		q.Name,                  // queue name
+		"current_weather_queue", // routing key
+		"weather",               // exchange
 		false,
 		nil,
 	)

@@ -15,6 +15,14 @@ export class Weather {
   temperature: number;
   @Prop()
   time: string;
+  @Prop()
+  wind_speed: number;
+  @Prop()
+  wind_direction: number;
+  @Prop()
+  wind_gusts: number;
+  @Prop()
+  apparent_temperature: number;
 }
 
 export const WeatherSchema = SchemaFactory.createForClass(Weather);

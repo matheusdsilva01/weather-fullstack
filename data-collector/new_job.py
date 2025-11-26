@@ -1,7 +1,7 @@
 import pika, time, schedule, requests, json
 
 def req_api():
-    api_url = "https://api.open-meteo.com/v1/forecast?latitude=-2.569&longitude=-44.242&current=temperature_2m"
+    api_url = "https://api.open-meteo.com/v1/forecast?latitude=-2.569&longitude=-44.242&current=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,apparent_temperature"
     try:
         response = requests.get(api_url)
         if response.status_code == 200:
@@ -11,7 +11,11 @@ def req_api():
                 "latitude": data.get("latitude"),
                 "longitude": data.get("longitude"),
                 "current_temperature": data.get("current").get("temperature_2m"),
-                "time": data.get("current").get("time")
+                "time": data.get("current").get("time"),
+                "wind_speed": data.get("current").get("wind_speed_10m"),
+                "wind_direction": data.get("current").get("wind_direction_10m"),
+                "wind_gusts": data.get("current").get("wind_gusts_10m"),
+                "apparent_temperature": data.get("current").get("apparent_temperature")
             }
             return formattedData
         else:
@@ -27,19 +31,19 @@ def send_job():
 
     channel.exchange_declare(exchange='weather', exchange_type='direct')
 
-    channel.queue_declare(queue='weather_queue')
+    channel.queue_declare(queue='current_weather_queue')
 
     data = req_api()
     message = json.dumps(data)
     channel.basic_publish(exchange='weather',
-                        routing_key='weather_queue',
+                        routing_key='current_weather_queue',
                         body=message,
                         )
     print(f" [x] Sent {message} at {time.strftime('%Y-%m-%d %H:%M:%S')}")
     connection.close()
 
 send_job()
-schedule.every(15).minutes.do(send_job)
+schedule.every(5).seconds.do(send_job)
 print("Running scheduled task...")
 
 while True:
