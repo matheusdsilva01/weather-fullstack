@@ -1,4 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import { WeatherInsights } from '@/components/weather-insights'
 import { fetchCurrentWeather } from '@/services/weather'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
@@ -9,7 +11,7 @@ export const Route = createFileRoute('/_auth/')({
 })
 
 function RouteComponent() {
-  const { data: weather, isLoading } = useQuery({
+  const { data: weather, isLoading, isError } = useQuery({
     queryKey: ['current-weather'],
     queryFn: fetchCurrentWeather,
   })
@@ -21,9 +23,44 @@ function RouteComponent() {
         <span className="mb-4 block text-sm text-zinc-500">
           Ultima atualização: {weather ? new Date(weather.time).toLocaleString() : 'N/A'}
         </span>
-        {isLoading ? (
-          <div className="text-center text-zinc-500">Carregando dados do clima...</div>
-        ) : weather ? (
+        {isLoading && (
+          <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
+            <Card>
+              <CardHeader className="grid-cols-2">
+                <CardTitle>Clima atual</CardTitle>
+                <Cloud className="ml-auto text-zinc-400" />
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Skeleton className="h-6 w-full" />
+                <Skeleton className="h-6 w-full" />
+                <Skeleton className="h-6 w-full" />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="grid-cols-2">
+                <CardTitle>Vento</CardTitle>
+                <Wind className="ml-auto text-zinc-400" />
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Skeleton className="h-6 w-full" />
+                <Skeleton className="h-6 w-full" />
+                <Skeleton className="h-6 w-full" />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="grid-cols-2">
+                <CardTitle>Condições atmosféricas</CardTitle>
+                <Wind className="ml-auto text-zinc-400" />
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Skeleton className="h-6 w-full" />
+                <Skeleton className="h-6 w-full" />
+                <Skeleton className="h-6 w-full" />
+              </CardContent>
+            </Card>
+          </div>
+        )}
+        {weather && (
           <div className='grid gap-4 lg:grid-cols-2 xl:grid-cols-3'>
             <Card>
               <CardHeader className="grid-cols-2">
@@ -86,9 +123,13 @@ function RouteComponent() {
               </CardContent>
             </Card>
           </div>
-        ) : (
+        )}
+        {isError &&(
           <div className="text-center text-red-500">Não foi possível carregar os dados do clima.</div>
         )}
+        <div className="mt-4">
+          <WeatherInsights />
+        </div>
       </div>
     </div>
   )
