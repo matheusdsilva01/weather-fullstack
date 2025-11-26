@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateCurrentWeatherDTO } from './dto/create-current-weather.dto';
+import { WeatherDTO } from './dto/weather.dto';
 import { Weather } from './weather.schema';
 
 @Injectable()
@@ -10,8 +11,9 @@ export class WeatherService {
     @InjectModel(Weather.name) private weatherModel: Model<Weather>,
   ) {}
 
-  async getCurrentWeather(): Promise<Weather | null> {
-    return await this.weatherModel.findOne().exec();
+  async getCurrentWeather(): Promise<WeatherDTO | null> {
+    const weatherData = await this.weatherModel.findOne().exec();
+    return new WeatherDTO(weatherData?.toObject());
   }
 
   async postCurrentWeather(payload: CreateCurrentWeatherDTO): Promise<Weather> {
