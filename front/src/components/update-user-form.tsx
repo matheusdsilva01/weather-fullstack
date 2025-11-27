@@ -1,29 +1,27 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldGroup,
-  FieldLabel
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { Route } from "@/routes/_auth/update-user.$id"
-import { updateUser } from "@/services/update-user"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { useNavigate } from "@tanstack/react-router"
-import { useState } from "react"
-import { toast } from "sonner"
-import { Spinner } from "./ui/spinner"
+  CardTitle
+} from '@/components/ui/card'
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { Route } from '@/routes/_auth/update-user.$id'
+import { updateUser } from '@/services/update-user'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { Spinner } from './ui/spinner'
 
-export function UpdateUserForm({ ...props }: React.ComponentProps<typeof Card>) {
+export function UpdateUserForm({
+  ...props
+}: React.ComponentProps<typeof Card>) {
   const params = Route.useParams()
 
-  const [name, setName] = useState("")
+  const [name, setName] = useState('')
   const navigate = useNavigate()
 
   const queryClient = useQueryClient()
@@ -38,7 +36,7 @@ export function UpdateUserForm({ ...props }: React.ComponentProps<typeof Card>) 
       toast.success('Account updated successfully!')
     },
     onError: (error) => {
-      console.error("Update user error:", error);
+      console.error('Update user error:', error)
       toast.error(error.message || 'Update user failed')
     }
   })
@@ -60,20 +58,20 @@ export function UpdateUserForm({ ...props }: React.ComponentProps<typeof Card>) 
         <form onSubmit={handleSubmit}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="name">Name</FieldLabel>
+              <FieldLabel htmlFor='name'>Name</FieldLabel>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                id="name"
-                type="text"
-                placeholder="Your name"
+                id='name'
+                type='text'
+                placeholder='Your name'
                 required
               />
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit" disabled={isPending}>
-                  {isPending  && <Spinner />}
+                <Button type='submit' disabled={isPending}>
+                  {isPending && <Spinner />}
                   Update Account
                 </Button>
               </Field>

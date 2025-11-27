@@ -1,29 +1,29 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  CardTitle
+} from '@/components/ui/card'
 import {
   Field,
   FieldDescription,
   FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { signUp } from "@/services/sign-up"
-import { useMutation } from "@tanstack/react-query"
-import { Link, useNavigate } from "@tanstack/react-router"
-import { useState } from "react"
-import { toast } from "sonner"
-import { Spinner } from "./ui/spinner"
+  FieldLabel
+} from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { signUp } from '@/services/sign-up'
+import { useMutation } from '@tanstack/react-query'
+import { Link, useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { Spinner } from './ui/spinner'
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
-  const [email, setEmail] = useState("")
-  const [name, setName] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [password, setPassword] = useState('')
   const navigate = useNavigate()
 
   const { mutate, isPending } = useMutation({
@@ -34,7 +34,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       toast.success('Account created successfully! Please log in.')
     },
     onError: (error) => {
-      console.error("Sign up error:", error);
+      console.error('Sign up error:', error)
       toast.error(error.message || 'Sign up failed')
     }
   })
@@ -56,45 +56,45 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         <form onSubmit={handleSubmit}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor='email'>Email</FieldLabel>
               <Input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                id="email"
-                type="email"
-                placeholder="m@example.com"
+                id='email'
+                type='email'
+                placeholder='m@example.com'
                 required
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor="name">Name</FieldLabel>
+              <FieldLabel htmlFor='name'>Name</FieldLabel>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                id="name"
-                type="text"
-                placeholder="Your name"
+                id='name'
+                type='text'
+                placeholder='Your name'
                 required
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+              <FieldLabel htmlFor='password'>Password</FieldLabel>
               <Input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                id="password"
-                type="password"
+                id='password'
+                type='password'
                 required
               />
             </Field>
             <FieldGroup>
               <Field>
-                <Button type="submit" disabled={isPending}>
-                  {isPending  && <Spinner />}
+                <Button type='submit' disabled={isPending}>
+                  {isPending && <Spinner />}
                   Create Account
                 </Button>
-                <FieldDescription className="px-6 text-center">
-                  Already have an account? <Link to="/login">Sign in</Link>
+                <FieldDescription className='px-6 text-center'>
+                  Already have an account? <Link to='/login'>Sign in</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

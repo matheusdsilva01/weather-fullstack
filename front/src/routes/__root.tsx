@@ -8,7 +8,7 @@ interface MyRouterContext {
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
-  component: RootLayout,
+  component: RootLayout
 })
 
 function RootLayout() {

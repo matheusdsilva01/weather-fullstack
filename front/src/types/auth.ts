@@ -1,10 +1,14 @@
 export type LoginPayload = {
-    email: string;
-    password: string;
-};
+  email: string
+  password: string
+}
 
 export type AuthResponse = {
-    access_token: string;
-};
+  access_token: string
+}
 
-export type SignUpPayload = LoginPayload;
+export type SignUpPayload = {
+  email: string
+  password: string
+  name: string
+}
