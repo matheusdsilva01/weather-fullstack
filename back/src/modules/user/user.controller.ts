@@ -15,6 +15,7 @@ import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { UserDTO } from './dto/user.dto';
 import { UserService } from './user.service';
+import { ApiResponse } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard)
 @Controller('user')
@@ -23,11 +24,13 @@ export class UserController {
 
   @Public()
   @Post()
+  @ApiResponse({ status: 201, type: UserDTO })
   create(@Body() payload: CreateUserDTO) {
     return this.userService.create(payload);
   }
 
   @Get()
+  @ApiResponse({ status: 200, type: PaginationResultDTO<UserDTO[]> })
   list(
     @Query('page') page: number = 1,
     @Query('pageSize') pageSize: number = 10,
@@ -39,10 +42,12 @@ export class UserController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
+  @ApiResponse({ status: 200, type: Boolean })
+  delete(@Param('id') id: string): Promise<boolean> {
     return this.userService.deleteUser(id);
   }
   @Put(':id')
+  @ApiResponse({ status: 200, type: Boolean })
   update(@Param('id') id: string, @Body() payload: UpdateUserDTO) {
     return this.userService.updateUser(id, payload);
   }

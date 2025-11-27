@@ -9,6 +9,7 @@ import {
   WeatherExportPayload,
   buildWeatherExport,
 } from './util/weather-export.util';
+import { mapper } from './mapping';
 
 @Injectable()
 export class WeatherService {
@@ -18,7 +19,10 @@ export class WeatherService {
 
   async getCurrentWeather(): Promise<WeatherDTO> {
     const weatherData = await this.weatherModel.findOne().exec();
-    return new WeatherDTO(weatherData?.toObject());
+    return mapper.map<Weather, WeatherDTO>(
+      weatherData!.toObject(),
+      new WeatherDTO(),
+    );
   }
 
   async exportCurrentWeather(
@@ -31,7 +35,9 @@ export class WeatherService {
     return buildWeatherExport([row], format);
   }
 
-  async postCurrentWeather(payload: CreateCurrentWeatherDTO): Promise<Weather> {
+  async postCurrentWeather(
+    payload: CreateCurrentWeatherDTO,
+  ): Promise<WeatherDTO> {
     const weather = new this.weatherModel(payload);
 
     if (
@@ -48,6 +54,7 @@ export class WeatherService {
         .exec();
       return updatedWeather!.toObject();
     }
-    return await weather.save();
+    const result = await weather.save();
+    return mapper.map<Weather, WeatherDTO>(result.toObject(), new WeatherDTO());
   }
 }
