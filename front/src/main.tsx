@@ -12,8 +12,8 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 const router = createRouter({
   routeTree,
   context: {
-    auth: undefined!, // We'll provide this in the InnerApp
-  },
+    auth: undefined! // We'll provide this in the InnerApp
+  }
 })
 const queryClient = new QueryClient()
 

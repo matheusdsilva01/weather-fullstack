@@ -1,4 +1,4 @@
 export type Insight = {
-    wind: string;
-    weather: string;
+  wind: string
+  weather: string
 }

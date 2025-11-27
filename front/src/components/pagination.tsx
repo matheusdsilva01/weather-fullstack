@@ -2,18 +2,18 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
-  ChevronsRight,
-} from "lucide-react"
-import { useNavigate } from "@tanstack/react-router"
+  ChevronsRight
+} from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+  SelectValue
+} from '@/components/ui/select'
 
 interface DataTablePaginationProps {
   pageIndex: number
@@ -26,35 +26,35 @@ export function Pagination({
   pageIndex,
   pageSize,
   pageCount,
-  totalCount,
+  totalCount
 }: DataTablePaginationProps) {
   const navigate = useNavigate()
 
   return (
-    <div className="flex items-center justify-between px-2">
-      <div className="flex-1 text-sm text-muted-foreground">
+    <div className='flex items-center justify-between px-2'>
+      <div className='text-muted-foreground flex-1 text-sm'>
         {totalCount !== undefined && `${totalCount} row(s) total.`}
       </div>
-      <div className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+      <div className='flex items-center space-x-6 lg:space-x-8'>
+        <div className='flex items-center space-x-2'>
+          <p className='text-sm font-medium'>Rows per page</p>
           <Select
             value={`${pageSize}`}
             onValueChange={(value) => {
               navigate({
-                to: ".",
+                to: '.',
                 search: (prev) => ({
                   ...prev,
                   page: 1,
-                  pageSize: Number(value),
+                  pageSize: Number(value)
                 })
               })
             }}
           >
-            <SelectTrigger className="h-8 w-[70px]">
+            <SelectTrigger className='h-8 w-[70px]'>
               <SelectValue placeholder={pageSize} />
             </SelectTrigger>
-            <SelectContent side="top">
+            <SelectContent side='top'>
               {[3, 10, 20, 30, 40, 50].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
@@ -63,13 +63,13 @@ export function Pagination({
             </SelectContent>
           </Select>
         </div>
-        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+        <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
           Page {pageIndex} of {pageCount}
         </div>
-        <div className="flex items-center space-x-2">
+        <div className='flex items-center space-x-2'>
           <Button
-            variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            variant='outline'
+            className='hidden h-8 w-8 p-0 lg:flex'
             disabled={pageIndex <= 1}
             onClick={() => {
               navigate({
@@ -81,12 +81,12 @@ export function Pagination({
               })
             }}
           >
-            <span className="sr-only">Go to first page</span>
+            <span className='sr-only'>Go to first page</span>
             <ChevronsLeft />
           </Button>
           <Button
-            variant="outline"
-            className="h-8 w-8 p-0"
+            variant='outline'
+            className='h-8 w-8 p-0'
             disabled={pageIndex <= 1}
             onClick={() => {
               navigate({
@@ -98,14 +98,14 @@ export function Pagination({
               })
             }}
           >
-            <span className="sr-only">Go to previous page</span>
+            <span className='sr-only'>Go to previous page</span>
             <ChevronLeft />
           </Button>
           <Button
-            variant="outline"
-            className="h-8 w-8 p-0"
+            variant='outline'
+            className='h-8 w-8 p-0'
             disabled={pageIndex >= pageCount}
-            onClick={()=> {
+            onClick={() => {
               navigate({
                 to: '.',
                 search: (prev) => ({
@@ -115,12 +115,12 @@ export function Pagination({
               })
             }}
           >
-            <span className="sr-only">Go to next page</span>
+            <span className='sr-only'>Go to next page</span>
             <ChevronRight />
           </Button>
           <Button
-            variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            variant='outline'
+            className='hidden h-8 w-8 p-0 lg:flex'
             disabled={pageIndex >= pageCount}
             onClick={() => {
               navigate({
@@ -132,7 +132,7 @@ export function Pagination({
               })
             }}
           >
-            <span className="sr-only">Go to last page</span>
+            <span className='sr-only'>Go to last page</span>
             <ChevronsRight />
           </Button>
         </div>

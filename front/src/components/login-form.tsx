@@ -1,29 +1,29 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+  CardTitle
+} from '@/components/ui/card'
 import {
   Field,
   FieldDescription,
   FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { useAuth } from "@/context/AuthContext"
-import { login } from "@/services/login"
-import { useMutation } from "@tanstack/react-query"
-import { Link, useNavigate, useSearch } from "@tanstack/react-router"
-import { useState } from "react"
-import { toast } from "sonner"
-import { Spinner } from "./ui/spinner"
+  FieldLabel
+} from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+import { useAuth } from '@/context/AuthContext'
+import { login } from '@/services/login'
+import { useMutation } from '@tanstack/react-query'
+import { Link, useNavigate, useSearch } from '@tanstack/react-router'
+import { useState } from 'react'
+import { toast } from 'sonner'
+import { Spinner } from './ui/spinner'
 
 export function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const search = useSearch({ from: '/login' })
 
@@ -37,7 +37,7 @@ export function LoginForm() {
       toast.success('Login successful!')
     },
     onError: (error) => {
-      console.error("Login error:", error);
+      console.error('Login error:', error)
       toast.error(error.message || 'Login failed')
     }
   })
@@ -48,7 +48,7 @@ export function LoginForm() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className='flex flex-col gap-6'>
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
@@ -60,30 +60,33 @@ export function LoginForm() {
           <form onSubmit={handleSubmit}>
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <FieldLabel htmlFor='email'>Email</FieldLabel>
                 <Input
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
+                  id='email'
+                  type='email'
+                  placeholder='m@example.com'
                   required
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor="password">Password</FieldLabel>
+                <FieldLabel htmlFor='password'>Password</FieldLabel>
                 <Input
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  id="password" type="password" required />
+                  id='password'
+                  type='password'
+                  required
+                />
               </Field>
               <Field>
-                <Button type="submit" disabled={isPending}>
+                <Button type='submit' disabled={isPending}>
                   {isPending && <Spinner />}
                   Login
                 </Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link to="/sign-up">Sign up</Link>
+                <FieldDescription className='text-center'>
+                  Don&apos;t have an account? <Link to='/sign-up'>Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

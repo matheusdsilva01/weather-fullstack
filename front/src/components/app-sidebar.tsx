@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 
 import {
   Sidebar,
@@ -11,15 +11,15 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail
-} from "@/components/ui/sidebar"
-import { NavUser } from "./nav-user"
-import { appRoutes, isActiveRoute } from "@/lib/routes"
-import { useQuery } from "@tanstack/react-query"
-import { getAuthUser } from "@/services/profile"
+} from '@/components/ui/sidebar'
+import { NavUser } from './nav-user'
+import { appRoutes, isActiveRoute } from '@/lib/routes'
+import { useQuery } from '@tanstack/react-query'
+import { getAuthUser } from '@/services/profile'
 
 // This is sample data.
 const data = {
-  navMain: appRoutes,
+  navMain: appRoutes
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -30,9 +30,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar {...props}>
-      <SidebarHeader>
-        {user && <NavUser user={user} />}
-      </SidebarHeader>
+      <SidebarHeader>{user && <NavUser user={user} />}</SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}
         {data.navMain.map((item) => (
@@ -42,7 +40,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenu>
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={isActiveRoute(item.url, window.location.pathname)}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isActiveRoute(
+                        item.url,
+                        window.location.pathname
+                      )}
+                    >
                       <a href={item.url}>{item.title}</a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

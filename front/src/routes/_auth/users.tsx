@@ -13,22 +13,26 @@ export const Route = createFileRoute('/_auth/users')({
   validateSearch: (search: Record<string, unknown>): SearchParams => {
     return {
       page: Number(search?.page ?? 1),
-      pageSize: Number(search?.pageSize ?? 10),
+      pageSize: Number(search?.pageSize ?? 10)
     }
-  },
+  }
 })
 
 function RouteComponent() {
   const params = Route.useSearch()
   const { data, isLoading } = useQuery({
     queryKey: ['users', params.page, params.pageSize],
-    queryFn: () => listUsers({ page: params.page, pageSize: params.pageSize }),
+    queryFn: () => listUsers({ page: params.page, pageSize: params.pageSize })
   })
 
   return (
     <div>
       {isLoading && <div>Loading users...</div>}
-      <UsersTable users={data?.items || []} pageCount={data?.totalPages ?? 1} totalCount={data?.totalItems ?? 1} />
+      <UsersTable
+        users={data?.items || []}
+        pageCount={data?.totalPages ?? 1}
+        totalCount={data?.totalItems ?? 1}
+      />
     </div>
   )
 }
