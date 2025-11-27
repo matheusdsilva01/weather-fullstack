@@ -12,10 +12,12 @@ import { UpdateUserDTO } from './dto/update-user.dto';
 import { PaginationQueryDTO } from '../shared/dto/pagination-query.dto';
 import { PaginationResultDTO } from '../shared/dto/pagination-result.dto';
 import { UserDTO } from './dto/user.dto';
+import { mapper } from './mapping';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+
   async list(
     params: PaginationQueryDTO,
   ): Promise<PaginationResultDTO<UserDTO[]>> {
@@ -33,7 +35,9 @@ export class UserService {
     const totalItems = await this.userModel.countDocuments().exec();
 
     return new PaginationResultDTO<UserDTO[]>({
-      items: result,
+      items: result.map((user) =>
+        mapper.map<User, UserDTO>(user, new UserDTO()),
+      ),
       totalItems: totalItems,
       totalPages: Math.ceil(totalItems / pageSize),
       currentPage: page,
@@ -60,7 +64,7 @@ export class UserService {
     return true;
   }
 
-  async create(userData: CreateUserDTO): Promise<Omit<User, 'password'>> {
+  async create(userData: CreateUserDTO): Promise<UserDTO> {
     const existUser = await this.userModel
       .findOne({ email: userData.email })
       .exec();
@@ -73,10 +77,7 @@ export class UserService {
     const newUser = new this.userModel({ ...userData, password: hash });
     const savedUser = await newUser.save();
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...result } = savedUser.toObject();
-
-    return result;
+    return mapper.map<User, UserDTO>(savedUser.toObject(), new UserDTO());
   }
 
   async deleteUser(id: string): Promise<boolean> {

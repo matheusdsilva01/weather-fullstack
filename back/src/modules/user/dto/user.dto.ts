@@ -1,9 +1,15 @@
-import { Types } from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDTO {
-  _id: Types.ObjectId;
+  @ApiProperty()
+  _id: string;
+
+  @ApiProperty()
   name: string;
+
+  @ApiProperty()
   email: string;
+
   constructor(partial: Partial<UserDTO> = {}) {
     Object.assign(this, partial);
   }
