@@ -9,7 +9,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { AuthGuard, Public } from '../auth/guards/auth.guard';
 import { PaginationResultDTO } from '../shared/dto/pagination-result.dto';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdateUserDTO } from './dto/update-user.dto';
@@ -21,6 +21,7 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Public()
   @Post()
   create(@Body() payload: CreateUserDTO) {
     return this.userService.create(payload);
