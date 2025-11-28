@@ -18,7 +18,7 @@ func failOnError(err error, msg string) {
 type Weather struct {
 	Latitude            float64 `json:"latitude"`
 	Longitude           float64 `json:"longitude"`
-	CurrentTemperature  float64 `json:"current_temperature"`
+	Temperature         float64 `json:"temperature"`
 	Time                string  `json:"time"`
 	WindSpeed           float64 `json:"wind_speed"`
 	WindDirection       float64 `json:"wind_direction"`
@@ -30,34 +30,39 @@ type Weather struct {
 	WeatherCode         int     `json:"weather_code"`
 }
 
-func req_api(w Weather) {
+func req_api(w Weather) bool {
 	url := "http://localhost:3000/weather"
 	jsonBody, err := json.Marshal(w)
 
 	if err != nil {
-		failOnError(err, "Failed to marshal weather data")
+		log.Printf("Failed to marshal weather data: %s", err)
+		return false
 	}
+	log.Printf("Sending JSON payload: %s", jsonBody)
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(jsonBody))
-	req.Header.Set("Content-Type", "application/json")
-
 	if err != nil {
-		failOnError(err, "Failed to create request")
+		log.Printf("Failed to create request: %s", err)
+		return false
 	}
+	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 
 	if err != nil {
-		failOnError(err, "Failed to send request")
+		log.Printf("Failed to send request: %s", err)
+		return false
 	}
 
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
-		failOnError(err, "Failed to post weather data")
+		log.Printf("Failed to post weather data: status code %d", resp.StatusCode)
+		return false
 	}
 	log.Printf("Successfully posted weather data: %+v", w)
+	return true
 }
 
 func main() {
@@ -99,10 +104,17 @@ func main() {
 	)
 	failOnError(err, "Failed to bind a queue")
 
+	err = ch.Qos(
+		1,     // prefetch count
+		0,     // prefetch size
+		false, // global
+	)
+	failOnError(err, "Failed to set QoS")
+
 	msgs, err := ch.Consume(
 		q.Name, // queue
 		"",     // consumer
-		true,   // auto-ack
+		false,  // auto-ack
 		false,  // exclusive
 		false,  // no-local
 		false,  // no-wait
@@ -117,9 +129,20 @@ func main() {
 			var w Weather
 			if err := json.Unmarshal(d.Body, &w); err != nil {
 				log.Printf("Failed to decode message: %s", err)
+				d.Nack(false, false)
 				continue
 			}
-			req_api(w)
+			res := req_api(w)
+
+			if res {
+				d.Ack(false)
+			} else {
+				if d.Redelivered {
+					d.Reject(false)
+				} else {
+					d.Nack(false, true)
+				}
+			}
 		}
 		close(forever)
 	}()

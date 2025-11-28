@@ -1,4 +1,9 @@
-import pika, time, schedule, requests, json
+import json
+import time
+from dotenv import load_dotenv
+import requests
+import schedule
+from rabbitmq import RabbitMQ
 
 def req_api():
     api_url = "https://api.open-meteo.com/v1/forecast?latitude=-2.569&longitude=-44.242&current=temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,apparent_temperature,precipitation,cloud_cover,relative_humidity_2m,weather_code"
@@ -10,7 +15,7 @@ def req_api():
             formattedData = {
                 "latitude": data.get("latitude"),
                 "longitude": data.get("longitude"),
-                "current_temperature": data.get("current").get("temperature_2m"),
+                "temperature": data.get("current").get("temperature_2m"),
                 "time": data.get("current").get("time"),
                 "wind_speed": data.get("current").get("wind_speed_10m"),
                 "wind_direction": data.get("current").get("wind_direction_10m"),
@@ -28,29 +33,25 @@ def req_api():
     except requests.exceptions.RequestException as e:
         print(f"An error occurred during the GET request: {e}")
 
+def publish_current_weather():
+    rabbitmq = RabbitMQ()
 
-def send_job():
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-    channel = connection.channel()
+    try:
+        data = req_api()
+        rabbitmq.queue_declare('current_weather_queue').exchange_declare('weather', 'direct').publish(queue_name='current_weather_queue', message=json.dumps(data))
+        print("Message published successfully.")
+    except Exception as e:
+        print(f"Failed to publish test message: {e}")
+    finally:
+        rabbitmq.close()
 
-    channel.exchange_declare(exchange='weather', exchange_type='direct')
-
-    channel.queue_declare(queue='current_weather_queue')
-
-    data = req_api()
-    message = json.dumps(data)
-    channel.basic_publish(exchange='weather',
-                        routing_key='current_weather_queue',
-                        body=message,
-                        )
-    print(f" [x] Sent {message} at {time.strftime('%Y-%m-%d %H:%M:%S')}")
-    connection.close()
-
-send_job()
-schedule.every(5).seconds.do(send_job)
+schedule.every(1).minute.do(publish_current_weather)
 print("Running scheduled task...")
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
 
+if __name__ == "__main__":
+    load_dotenv()
+    publish_current_weather()
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
