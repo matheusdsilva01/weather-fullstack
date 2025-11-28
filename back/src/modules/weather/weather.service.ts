@@ -40,11 +40,10 @@ export class WeatherService {
   ): Promise<WeatherDTO> {
     const weather = new this.weatherModel(payload);
 
-    if (
-      await this.weatherModel
-        .find({ latitude: payload.latitude, longitude: payload.longitude })
-        .exec()
-    ) {
+    const foundWeatherEntries = await this.weatherModel
+      .findOne({ latitude: payload.latitude, longitude: payload.longitude })
+      .exec();
+    if (foundWeatherEntries) {
       const updatedWeather = await this.weatherModel
         .findOneAndUpdate(
           { latitude: payload.latitude, longitude: payload.longitude },
@@ -52,7 +51,10 @@ export class WeatherService {
           { new: true },
         )
         .exec();
-      return updatedWeather!.toObject();
+      return mapper.map<Weather, WeatherDTO>(
+        updatedWeather!.toObject(),
+        new WeatherDTO(),
+      );
     }
     const result = await weather.save();
     return mapper.map<Weather, WeatherDTO>(result.toObject(), new WeatherDTO());
