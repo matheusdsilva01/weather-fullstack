@@ -1,0 +1,88 @@
+services:
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - weather-network
+
+  db:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: weather
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: pass
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - db_data:/data/db
+    networks:
+      - weather-network
+
+  data-collector:
+    build: ./data-collector
+    container_name: data-collector
+    depends_on:
+      - db
+      - rabbitmq
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    restart: always
+    networks:
+      - weather-network
+
+  worker:
+    build: ./worker
+    container_name: worker
+    depends_on:
+      - rabbitmq
+      - db
+    environment:
+      RABBITMQ_CONNECTION_URL: amqp://guest:guest@rabbitmq:5672/
+      BACKEND_URL: http://back:3000
+      MONGO_URI: mongodb://user:pass@db:27017/weather?authSource=admin
+    restart: always
+    networks:
+      - weather-network
+
+  back:
+    build: ./back
+    container_name: back
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db
+    environment:
+      URI: mongodb://user:pass@db:27017/weather?authSource=admin
+      JWT_SECRET: secret
+    networks:
+      - weather-network
+
+  front:
+    build:
+      context: ./front
+      args:
+        VITE_BACKEND_URL: http://localhost:3000
+    container_name: front
+    ports:
+      - '80:80'
+    depends_on:
+      - back
+    networks:
+      - weather-network
+
+networks:
+  weather-network:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local

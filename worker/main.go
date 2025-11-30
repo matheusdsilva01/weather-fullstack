@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
@@ -31,7 +32,7 @@ type Weather struct {
 }
 
 func req_api(w Weather) bool {
-	url := "http://localhost:3000/weather"
+	url := os.Getenv("BACKEND_URL") + "/weather"
 	jsonBody, err := json.Marshal(w)
 
 	if err != nil {
@@ -66,7 +67,7 @@ func req_api(w Weather) bool {
 }
 
 func main() {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	conn, err := amqp.Dial(os.Getenv("RABBITMQ_CONNECTION_URL"))
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
