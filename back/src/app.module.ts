@@ -5,6 +5,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { InsightsModule } from './modules/insights/insights.module';
 import { UserModule } from './modules/user/user.module';
 import { WeatherModule } from './modules/weather/weather.module';
+import { HealthModule } from './modules/health/health.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { WeatherModule } from './modules/weather/weather.module';
     AuthModule,
     UserModule,
     InsightsModule,
+    HealthModule,
   ],
   controllers: [],
   providers: [AppService],
