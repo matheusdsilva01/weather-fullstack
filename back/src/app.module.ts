@@ -6,6 +6,7 @@ import { InsightsModule } from './modules/insights/insights.module';
 import { UserModule } from './modules/user/user.module';
 import { WeatherModule } from './modules/weather/weather.module';
 import { HealthModule } from './modules/health/health.module';
+import { PokeModule } from './modules/poke/poke.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { HealthModule } from './modules/health/health.module';
     UserModule,
     InsightsModule,
     HealthModule,
+    PokeModule,
   ],
   controllers: [],
   providers: [AppService],
