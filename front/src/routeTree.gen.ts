@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthIndexRouteImport } from './routes/_auth/index'
 import { Route as AuthUsersRouteImport } from './routes/_auth/users'
+import { Route as AuthPokeRouteImport } from './routes/_auth/poke'
 import { Route as AuthAboutRouteImport } from './routes/_auth/about'
 import { Route as AuthUpdateUserIdRouteImport } from './routes/_auth/update-user.$id'
 
@@ -41,6 +42,11 @@ const AuthUsersRoute = AuthUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthPokeRoute = AuthPokeRouteImport.update({
+  id: '/poke',
+  path: '/poke',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthAboutRoute = AuthAboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -56,6 +62,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRoute
   '/about': typeof AuthAboutRoute
+  '/poke': typeof AuthPokeRoute
   '/users': typeof AuthUsersRoute
   '/': typeof AuthIndexRoute
   '/update-user/$id': typeof AuthUpdateUserIdRoute
@@ -64,6 +71,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRoute
   '/about': typeof AuthAboutRoute
+  '/poke': typeof AuthPokeRoute
   '/users': typeof AuthUsersRoute
   '/': typeof AuthIndexRoute
   '/update-user/$id': typeof AuthUpdateUserIdRoute
@@ -74,6 +82,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/sign-up': typeof SignUpRoute
   '/_auth/about': typeof AuthAboutRoute
+  '/_auth/poke': typeof AuthPokeRoute
   '/_auth/users': typeof AuthUsersRoute
   '/_auth/': typeof AuthIndexRoute
   '/_auth/update-user/$id': typeof AuthUpdateUserIdRoute
@@ -84,17 +93,26 @@ export interface FileRouteTypes {
     | '/login'
     | '/sign-up'
     | '/about'
+    | '/poke'
     | '/users'
     | '/'
     | '/update-user/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/sign-up' | '/about' | '/users' | '/' | '/update-user/$id'
+  to:
+    | '/login'
+    | '/sign-up'
+    | '/about'
+    | '/poke'
+    | '/users'
+    | '/'
+    | '/update-user/$id'
   id:
     | '__root__'
     | '/_auth'
     | '/login'
     | '/sign-up'
     | '/_auth/about'
+    | '/_auth/poke'
     | '/_auth/users'
     | '/_auth/'
     | '/_auth/update-user/$id'
@@ -143,6 +161,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUsersRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/poke': {
+      id: '/_auth/poke'
+      path: '/poke'
+      fullPath: '/poke'
+      preLoaderRoute: typeof AuthPokeRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/about': {
       id: '/_auth/about'
       path: '/about'
@@ -162,6 +187,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthRouteChildren {
   AuthAboutRoute: typeof AuthAboutRoute
+  AuthPokeRoute: typeof AuthPokeRoute
   AuthUsersRoute: typeof AuthUsersRoute
   AuthIndexRoute: typeof AuthIndexRoute
   AuthUpdateUserIdRoute: typeof AuthUpdateUserIdRoute
@@ -169,6 +195,7 @@ interface AuthRouteChildren {
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthAboutRoute: AuthAboutRoute,
+  AuthPokeRoute: AuthPokeRoute,
   AuthUsersRoute: AuthUsersRoute,
   AuthIndexRoute: AuthIndexRoute,
   AuthUpdateUserIdRoute: AuthUpdateUserIdRoute,
