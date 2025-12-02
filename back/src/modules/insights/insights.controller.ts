@@ -1,8 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { InsightsService } from './insights.service';
 import { ApiResponse } from '@nestjs/swagger';
 import { InsightsDTO } from './dto/insights.dto';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller({
   path: 'weather',
 })
