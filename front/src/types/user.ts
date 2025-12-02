@@ -5,7 +5,7 @@ export type User = {
 }
 
 export type AuthUser = {
-  sub: string
+  _id: string
   email: string
   name: string
 }
