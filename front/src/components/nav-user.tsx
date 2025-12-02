@@ -62,7 +62,7 @@ export function NavUser({ user }: NavUserProps) {
             sideOffset={4}
           >
             <DropdownMenuItem
-              onClick={() => navigate({ to: `/update-user/${user.sub}` })}
+              onClick={() => navigate({ to: `/update-user/${user._id}` })}
             >
               <BadgeCheck />
               Account
