@@ -33,10 +33,16 @@ class RabbitMQ:
         self.channel.exchange_declare(exchange=exchange_name, exchange_type=exchange_type)
         return self
 
-    def publish(self, queue_name, message):
+    def queue_bind(self, queue_name, exchange_name, routing_key):
         if not self.channel:
             raise Exception("Connection is not established.")
-        self.channel.basic_publish(exchange='weather',
+        self.channel.queue_bind(queue=queue_name, exchange=exchange_name, routing_key=routing_key)
+        return self
+
+    def publish(self, queue_name, message, exchange_name):
+        if not self.channel:
+            raise Exception("Connection is not established.")
+        self.channel.basic_publish(exchange=exchange_name,
                                    routing_key=queue_name,
                                    body=message,
                                    )
