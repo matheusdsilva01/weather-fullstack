@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"worker/rabbitmq"
 
 	"github.com/joho/godotenv"
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -31,14 +32,14 @@ func req_api(w Weather) bool {
 	jsonBody, err := json.Marshal(w)
 
 	if err != nil {
-		log.Printf("Failed to marshal weather data: %s", err)
+		failOnError(err, "Failed to marshal weather data")
 		return false
 	}
 	log.Printf("Sending JSON payload: %s", jsonBody)
 
 	req, err := http.NewRequest("POST", url, bytes.NewReader(jsonBody))
 	if err != nil {
-		log.Printf("Failed to create request: %s", err)
+		failOnError(err, "Failed to create request")
 		return false
 	}
 	req.Header.Set("Content-Type", "application/json")
@@ -47,7 +48,7 @@ func req_api(w Weather) bool {
 	resp, err := client.Do(req)
 
 	if err != nil {
-		log.Printf("Failed to send request: %s", err)
+		failOnError(err, "Failed to send request")
 		return false
 	}
 
@@ -64,7 +65,7 @@ func req_api(w Weather) bool {
 func processMessage(d amqp.Delivery, sender func(Weather) bool) {
 	var w Weather
 	if err := json.Unmarshal(d.Body, &w); err != nil {
-		log.Printf("Failed to decode message: %s", err)
+		failOnError(err, "Failed to decode message")
 		d.Nack(false, false)
 		return
 	}
@@ -84,16 +85,16 @@ func processMessage(d amqp.Delivery, sender func(Weather) bool) {
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
+		failOnError(err, "Error loading .env file")
 	}
 	queueName := "current_weather_queue"
 
-	NewRabbitMQConnection()
+	rabbitmq.NewRabbitMQConnection()
 
-	msgs, err := RabbitMQClient.ConsumeRabbitMQQueue(queueName)
+	msgs, err := rabbitmq.RabbitMQClient.ConsumeRabbitMQQueue(queueName)
 
 	if err != nil {
-		log.Fatalf("Failed to consume RabbitMQ queue: %v", err)
+		failOnError(err, "Failed to consume RabbitMQ queue")
 	}
 
 	var forever chan struct{}
@@ -107,4 +108,8 @@ func main() {
 
 	log.Printf(" [*] Waiting for logs. To exit press CTRL+C")
 	<-forever
+}
+
+func failOnError(err error, msg string) {
+	log.Panicf("%s: %s", msg, err)
 }

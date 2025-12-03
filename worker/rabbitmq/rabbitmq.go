@@ -1,6 +1,7 @@
-package main
+package rabbitmq
 
 import (
+	"log"
 	"os"
 
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -74,4 +75,10 @@ func (r *RabbitMQ) ConsumeRabbitMQQueue(queue_name string) (<-chan amqp.Delivery
 func (r *RabbitMQ) CloseConnection() {
 	r.Channel.Close()
 	r.Conn.Close()
+}
+
+func failOnError(err error, msg string) {
+	if err != nil {
+		log.Panicf("%s: %s", msg, err)
+	}
 }
