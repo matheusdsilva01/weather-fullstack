@@ -38,8 +38,13 @@ def publish_current_weather():
 
     try:
         data = req_api()
-        rabbitmq.queue_declare('current_weather_queue').exchange_declare('weather', 'direct').publish(queue_name='current_weather_queue', message=json.dumps(data))
-        print("Message published successfully.")
+        queue_name = 'current_weather_queue'
+        exchange_name = 'weather'
+        rabbitmq.queue_declare(queue_name)
+        rabbitmq.exchange_declare(exchange_name, 'direct')
+        rabbitmq.queue_bind(queue_name, exchange_name, queue_name)
+        rabbitmq.publish(queue_name, json.dumps(data), exchange_name)
+        print(f"Message published successfully at {time.strftime('%Y-%m-%d %H:%M:%S')}")
     except Exception as e:
         print(f"Failed to publish test message: {e}")
     finally:
