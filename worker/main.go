@@ -84,7 +84,7 @@ func processMessage(d amqp.Delivery, sender func(Weather) bool) {
 
 func main() {
 	err := godotenv.Load()
-	if err != nil {
+	if err != nil && !os.IsNotExist(err) {
 		failOnError(err, "Error loading .env file")
 	}
 	queueName := "current_weather_queue"
