@@ -10,6 +10,12 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     networks:
       - weather-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 10s
 
   db:
     image: mongo:latest
@@ -24,17 +30,24 @@ services:
       - db_data:/data/db
     networks:
       - weather-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   data-collector:
     build: ./data-collector
     container_name: data-collector
     depends_on:
-      - db
-      - rabbitmq
+      rabbitmq:
+          condition: service_healthy
     environment:
       RABBITMQ_HOST: rabbitmq
       RABBITMQ_USER: guest
       RABBITMQ_PASSWORD: guest
+      RABBITMQ_PORT: 5672
     restart: always
     networks:
       - weather-network
@@ -43,8 +56,10 @@ services:
     build: ./worker
     container_name: worker
     depends_on:
-      - rabbitmq
-      - db
+      rabbitmq:
+          condition: service_healthy
+      back:
+          condition: service_healthy
     environment:
       RABBITMQ_CONNECTION_URL: amqp://guest:guest@rabbitmq:5672/
       BACKEND_URL: http://back:3000
@@ -59,7 +74,13 @@ services:
     ports:
       - '3000:3000'
     depends_on:
-      - db
+      db:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
     environment:
       URI: mongodb://user:pass@db:27017/weather?authSource=admin
       JWT_SECRET: secret
@@ -75,7 +96,8 @@ services:
     ports:
       - '80:80'
     depends_on:
-      - back
+      back:
+          condition: service_healthy
     networks:
       - weather-network
 
