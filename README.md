@@ -34,6 +34,10 @@ Este é um projeto de monitoramento climático para fornecer informações atual
 #### Infraestrutura:
 - **Docker**: Containerização
 
+#### Executar projeto localmente:
+Para executar o projeto localmente, você pode utilizar o Docker Compose 
+para criar os containers dos serviços usando o comando `docker compose up --build -d` ou seguir as instruções em cada README dos serviços.
+
 #### Fluxo de Dados:
 
 ```
