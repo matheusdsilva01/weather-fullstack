@@ -34,7 +34,7 @@ export function ModalPokemonDetail({
             {selectedPokemon}
           </DialogTitle>
           <DialogDescription className='text-center'>
-            Pokemon Details
+            Detalhes do Pokémon
           </DialogDescription>
         </DialogHeader>
         {isLoadingDetails ? (
@@ -46,11 +46,11 @@ export function ModalPokemonDetail({
           <div className='flex flex-col items-center space-y-4'>
             <div className='grid w-full grid-cols-2 gap-4 text-center'>
               <div className='bg-muted rounded-lg p-2'>
-                <p className='text-muted-foreground text-sm'>Height</p>
+                <p className='text-muted-foreground text-sm'>Altura</p>
                 <p className='font-medium'>{details.height / 10} m</p>
               </div>
               <div className='bg-muted rounded-lg p-2'>
-                <p className='text-muted-foreground text-sm'>Weight</p>
+                <p className='text-muted-foreground text-sm'>Peso</p>
                 <p className='font-medium'>{details.weight / 10} kg</p>
               </div>
             </div>

@@ -10,12 +10,11 @@ type AppRoutes = {
 export const appRoutes: AppRoutes[] = [
   {
     title: 'Dashboard',
-    url: '/dashboard',
+    url: '/',
     items: [
       { title: 'Home', url: '/' },
-      { title: 'About', url: '/about' },
-      { title: 'Users', url: '/users' },
-      { title: 'Poke', url: '/poke' }
+      { title: 'Usuários', url: '/users' },
+      { title: 'Pokemons', url: '/poke' }
     ]
   }
 ]
