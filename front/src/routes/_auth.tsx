@@ -33,7 +33,7 @@ function AuthLayout() {
             orientation='vertical'
             className='mr-2 data-[orientation=vertical]:h-4'
           />
-          <h1 className='text-lg font-semibold'>Weather App</h1>
+          <h1 className='text-lg font-semibold'>Clima App</h1>
         </header>
         <div className='flex flex-1 flex-col gap-4 p-4 pt-0'>
           <Outlet />

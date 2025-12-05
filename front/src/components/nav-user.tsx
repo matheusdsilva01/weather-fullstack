@@ -65,11 +65,11 @@ export function NavUser({ user }: NavUserProps) {
               onClick={() => navigate({ to: `/update-user/${user._id}` })}
             >
               <BadgeCheck />
-              Account
+              Conta
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleLogout()}>
               <LogOut />
-              Log out
+              Sair
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

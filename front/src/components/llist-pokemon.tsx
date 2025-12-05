@@ -22,7 +22,7 @@ export function ListPokemon({ items }: { items: PokemonListItem[] }) {
           </CardHeader>
           <CardContent className='flex justify-center'>
             <Button variant='ghost' className='w-full'>
-              View Details
+              Ver Detalhes
             </Button>
           </CardContent>
         </Card>

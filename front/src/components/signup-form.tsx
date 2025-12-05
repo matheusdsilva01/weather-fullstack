@@ -31,11 +31,11 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
     mutationFn: signUp,
     onSuccess: () => {
       navigate({ to: '/login' })
-      toast.success('Account created successfully! Please log in.')
+      toast.success('Conta criada com sucesso! Por favor, faça login.')
     },
     onError: (error) => {
       console.error('Sign up error:', error)
-      toast.error(error.message || 'Sign up failed')
+      toast.error(error.message || 'Erro ao criar a conta')
     }
   })
 
@@ -47,9 +47,9 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   return (
     <Card {...props}>
       <CardHeader>
-        <CardTitle>Create an account</CardTitle>
+        <CardTitle>Crie uma conta</CardTitle>
         <CardDescription>
-          Enter your information below to create your account
+          Insira suas informações abaixo para criar sua conta
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -67,18 +67,18 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor='name'>Name</FieldLabel>
+              <FieldLabel htmlFor='name'>Nome</FieldLabel>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 id='name'
                 type='text'
-                placeholder='Your name'
+                placeholder='Seu nome'
                 required
               />
             </Field>
             <Field>
-              <FieldLabel htmlFor='password'>Password</FieldLabel>
+              <FieldLabel htmlFor='password'>Senha</FieldLabel>
               <Input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -91,10 +91,10 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               <Field>
                 <Button type='submit' disabled={isPending}>
                   {isPending && <Spinner />}
-                  Create Account
+                  Criar Conta
                 </Button>
                 <FieldDescription className='px-6 text-center'>
-                  Already have an account? <Link to='/login'>Sign in</Link>
+                  Já tem uma conta? <Link to='/login'>Entrar</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

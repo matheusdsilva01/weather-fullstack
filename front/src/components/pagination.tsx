@@ -33,11 +33,11 @@ export function Pagination({
   return (
     <div className='flex items-center justify-between px-2'>
       <div className='text-muted-foreground flex-1 text-sm'>
-        {totalCount !== undefined && `${totalCount} row(s) total.`}
+        {totalCount !== undefined && `${totalCount} itens totais`}
       </div>
       <div className='flex items-center space-x-6 lg:space-x-8'>
         <div className='flex items-center space-x-2'>
-          <p className='text-sm font-medium'>Rows per page</p>
+          <p className='text-sm font-medium'>Linhas por página</p>
           <Select
             value={`${pageSize}`}
             onValueChange={(value) => {
@@ -64,7 +64,7 @@ export function Pagination({
           </Select>
         </div>
         <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
-          Page {pageIndex} of {pageCount}
+          Página {pageIndex} de {pageCount}
         </div>
         <div className='flex items-center space-x-2'>
           <Button
@@ -81,7 +81,7 @@ export function Pagination({
               })
             }}
           >
-            <span className='sr-only'>Go to first page</span>
+            <span className='sr-only'>Ir para a primeira página</span>
             <ChevronsLeft />
           </Button>
           <Button
@@ -98,7 +98,7 @@ export function Pagination({
               })
             }}
           >
-            <span className='sr-only'>Go to previous page</span>
+            <span className='sr-only'>Ir para a página anterior</span>
             <ChevronLeft />
           </Button>
           <Button
@@ -115,7 +115,7 @@ export function Pagination({
               })
             }}
           >
-            <span className='sr-only'>Go to next page</span>
+            <span className='sr-only'>Ir para a próxima página</span>
             <ChevronRight />
           </Button>
           <Button
@@ -132,7 +132,7 @@ export function Pagination({
               })
             }}
           >
-            <span className='sr-only'>Go to last page</span>
+            <span className='sr-only'>Ir para a última página</span>
             <ChevronsRight />
           </Button>
         </div>

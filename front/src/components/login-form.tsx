@@ -34,11 +34,11 @@ export function LoginForm() {
     onSuccess: (data) => {
       authLogin(data.access_token)
       navigate({ to: search.redirect ?? '/' })
-      toast.success('Login successful!')
+      toast.success('Entrou na conta com sucesso!')
     },
     onError: (error) => {
       console.error('Login error:', error)
-      toast.error(error.message || 'Login failed')
+      toast.error(error.message || 'Erro ao entrar na conta')
     }
   })
 
@@ -51,9 +51,9 @@ export function LoginForm() {
     <div className='flex flex-col gap-6'>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Entrar na sua conta</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Insira seu email abaixo para entrar na sua conta
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -71,7 +71,7 @@ export function LoginForm() {
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor='password'>Password</FieldLabel>
+                <FieldLabel htmlFor='password'>Senha</FieldLabel>
                 <Input
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -83,10 +83,10 @@ export function LoginForm() {
               <Field>
                 <Button type='submit' disabled={isPending}>
                   {isPending && <Spinner />}
-                  Login
+                  Entrar
                 </Button>
                 <FieldDescription className='text-center'>
-                  Don&apos;t have an account? <Link to='/sign-up'>Sign up</Link>
+                  Não tem uma conta? <Link to='/sign-up'>Cadastre-se</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>

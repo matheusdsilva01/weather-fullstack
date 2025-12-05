@@ -33,11 +33,11 @@ export function UpdateUserForm({
         queryKey: ['auth-user']
       })
       navigate({ to: '/' })
-      toast.success('Account updated successfully!')
+      toast.success('Conta atualizada com sucesso!')
     },
     onError: (error) => {
       console.error('Update user error:', error)
-      toast.error(error.message || 'Update user failed')
+      toast.error(error.message || 'Erro ao atualizar a conta')
     }
   })
 
@@ -49,22 +49,22 @@ export function UpdateUserForm({
   return (
     <Card {...props}>
       <CardHeader>
-        <CardTitle>Update Your Account</CardTitle>
+        <CardTitle>Atualize sua conta</CardTitle>
         <CardDescription>
-          Enter your information below to update your account
+          Insira suas informações abaixo para atualizar sua conta
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor='name'>Name</FieldLabel>
+              <FieldLabel htmlFor='name'>Nome</FieldLabel>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 id='name'
                 type='text'
-                placeholder='Your name'
+                placeholder='Seu nome'
                 required
               />
             </Field>
@@ -72,7 +72,7 @@ export function UpdateUserForm({
               <Field>
                 <Button type='submit' disabled={isPending}>
                   {isPending && <Spinner />}
-                  Update Account
+                  Atualizar Conta
                 </Button>
               </Field>
             </FieldGroup>
