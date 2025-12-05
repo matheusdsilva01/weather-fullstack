@@ -1,98 +1,91 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Weather - Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API RESTful para gerenciamento de dados climáticos, construída com NestJS e MongoDB
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologias Utilizadas
+- **NestJS**: Framework Node.js para construção de aplicações escaláveis
+- **MongoDB**: Banco de dados
+- **Swagger**: Documentação da API
+- **Docker**: Containerização da aplicação
 
-## Description
+## Features
+- **Autenticação JWT**: Registro e login de usuários
+- **Gerenciamento de usuários**: CRUD de usuários
+- **Visualização de pokemons**: Consumo de API externa para obter dados de pokemons
+- **Visualização de dados climáticos**: Endpoints para obter dados e insights climáticos
+- **Arquitetura modular**: Separação de funcionalidades por módulos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Testes
+- **Testes e2e**: Todos os fluxos da aplicação estão cobertos por testes end-to-end para cobrir a 
+- **Testes unitários**: Controllers possuem testes unitários para garantir a conexão com suas services
 
-## Project setup
+## Variáveis de Ambiente
+Crie um arquivo `.env` na raiz do diretório `back` com as configurações necessárias
 
-```bash
-$ npm install
+```env
+URI=<url de conexão para banco de dados>
+JWT_SECRET=<secret para gerar senhas de novos usuários>
+RABBITMQ_URL=<URL para o RabbitMQ>
 ```
 
-## Compile and run the project
+## Componentes de Desenvolvimento
+Arquivos e pastas definidos para estruturar módulos da aplicação:
+- **DTO**: Objetos de Transferência de Dados para validação e tipagem
+- **Controllers**: Definem os endpoints da API e manipulam as requisições HTTP
+- **Services**: Contêm a lógica de negócio e interagem com o banco de dados
+- **Schemas**: Definições dos modelos de dados para o MongoDB
+- **Seeds**: Scripts para popular o banco de dados com dados iniciais
 
-```bash
-# development
-$ npm run start
+## Scripts Disponíveis
+```powershell
+# Executa a aplicação em modo de desenvolvimento
+npm run start:dev
 
-# watch mode
-$ npm run start:dev
+# Build de produção
+npm run build
 
-# production mode
-$ npm run start:prod
+# Executa a aplicação em modo de produção
+npm run start:prod
+
+# Executa os testes unitários
+npm run test
+
+# Executa os testes e2e
+npm run test:e2e
+
+# Lint
+npm run lint
 ```
 
-## Run tests
+## Estrutura de banco de dados
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
+┌───────────────────────────┐
+│           USERS           │
+├───────────────────────────┤
+│ _id: ObjectId             │
+│ username: string          │
+│ password: string          │
+│ email: string             │
+│ createdAt: Date           │
+│ updatedAt: Date           │
+└───────────────────────────┘
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+┌──────────────────────────────────────────────┐
+│                   WEATHERS                   │
+├──────────────────────────────────────────────┤
+│ _id: ObjectId                                │
+│ longitude: number                            │
+│ latitude: number                             │
+│ temperature: number                          │
+│ time: string                                 │
+│ wind_speed: number                           │
+│ wind_direction: number                       │
+│ wind_gusts: number                           │
+│ apparent_temperature: number                 │
+│ precipitation: number                        │
+│ cloud_cover: number                          │
+│ relative_humidity: number                    │
+│ weather_code: number                         │
+└──────────────────────────────────────────────┘
 ```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
