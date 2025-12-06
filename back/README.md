@@ -14,6 +14,8 @@ API RESTful para gerenciamento de dados climáticos, construída com NestJS e Mo
 - **Visualização de pokemons**: Consumo de API externa para obter dados de pokemons
 - **Visualização de dados climáticos**: Endpoints para obter dados e insights climáticos
 - **Arquitetura modular**: Separação de funcionalidades por módulos
+- **Insights climáticos com IA(a fazer)**: Geração de insights climáticos utilizando inteligência artificial
+    - **Tip**: Utilizar a biblioteca [LangChain](https://docs.langchain.com/) com uso de `Message Prompts` e `Structure Output` para gerar insights a partir dos dados climáticos armazenados no banco de dados.
 
 ## Testes
 - **Testes e2e**: Todos os fluxos da aplicação estão cobertos por testes end-to-end para cobrir a 
