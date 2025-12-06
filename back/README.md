@@ -14,8 +14,11 @@ API RESTful para gerenciamento de dados climáticos, construída com NestJS e Mo
 - **Visualização de pokemons**: Consumo de API externa para obter dados de pokemons
 - **Visualização de dados climáticos**: Endpoints para obter dados e insights climáticos
 - **Arquitetura modular**: Separação de funcionalidades por módulos
+- **Insights climáticos com IA(a fazer)**: Geração de insights climáticos utilizando inteligência artificial
+    - **Tip**: Utilizar a biblioteca [LangChain](https://docs.langchain.com/) com uso de `Message Prompts` e `Structure Output` para gerar insights a partir dos dados climáticos armazenados no banco de dados.
 
 ## Testes
+OBS: Crie outro arquivo `.env.test` para configuração do ambiente de testes com os mesmos parâmetros do `.env`.
 - **Testes e2e**: Todos os fluxos da aplicação estão cobertos por testes end-to-end para cobrir a 
 - **Testes unitários**: Controllers possuem testes unitários para garantir a conexão com suas services
 
@@ -25,7 +28,9 @@ Crie um arquivo `.env` na raiz do diretório `back` com as configurações neces
 ```env
 URI=<url de conexão para banco de dados>
 JWT_SECRET=<secret para gerar senhas de novos usuários>
-RABBITMQ_URL=<URL para o RabbitMQ>
+DEFAULT_USER_EMAIL=<email do usuário padrão>
+DEFAULT_USER_PASSWORD=<senha do usuário padrão>
+DEFAULT_USER_USER_NAME=<username do usuário padrão>
 ```
 
 ## Componentes de Desenvolvimento
