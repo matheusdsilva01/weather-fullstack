@@ -19,18 +19,33 @@ API RESTful para gerenciamento de dados climáticos, construída com NestJS e Mo
 
 ## Testes
 OBS: Crie outro arquivo `.env.test` para configuração do ambiente de testes com os mesmos parâmetros do `.env`.
+```env
+URI="url mongodb"
+JWT_SECRET="secret"
+```
 - **Testes e2e**: Todos os fluxos da aplicação estão cobertos por testes end-to-end para cobrir as principais funcionalidades
+    - Executar testes: `npm run test:e2e`
 - **Testes unitários**: Controllers possuem testes unitários para garantir a conexão com suas services
-
+    - Executar testes: `npm run test`
 ## Variáveis de Ambiente
 Crie um arquivo `.env` na raiz do diretório `back` com as configurações necessárias
-
 ```env
 URI=<url de conexão para banco de dados>
 JWT_SECRET=<secret para gerar senhas de novos usuários>
 DEFAULT_USER_EMAIL=<email do usuário padrão>
 DEFAULT_USER_PASSWORD=<senha do usuário padrão>
 DEFAULT_USER_USER_NAME=<username do usuário padrão>
+```
+
+O usuário padrão é definido pelas variáveis `DEFAULT_USER_EMAIL`, `DEFAULT_USER_PASSWORD` e `DEFAULT_USER_USER_NAME`.
+Caso não sejam definidas, o usuário padrão será o mesmo com as informações abaixo:
+```env
+#exemplo
+URI="urlmongodb"
+JWT_SECRET="jwtsecret"
+DEFAULT_USER_EMAIL=admin@admin.com
+DEFAULT_USER_PASSWORD=password
+DEFAULT_USER_NAME="Admin User"
 ```
 
 ## Componentes de Desenvolvimento

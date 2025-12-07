@@ -34,7 +34,13 @@ RABBITMQ_PASSWORD=<password rabbitmq>
 RABBITMQ_HOST=<host rabbitmq>
 RABBITMQ_PORT=<port rabbitmq>
 ```
-
+```env
+#exemplo
+RABBITMQ_USER=guest
+RABBITMQ_PASSWORD=guest
+RABBITMQ_HOST=localhost
+RABBITMQ_PORT=5672
+```
 ## Scripts Disponíveis
 Crie um ambiente virtual antes e instale as dependências do projeto:
 ```powershell
