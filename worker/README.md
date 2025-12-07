@@ -12,6 +12,10 @@ Aplicação para processamento e encaminhamento de dados coletados de filas para
 
 ## Testes
 Possui testes de integração para validar conexão e consumo de filas no RabbitMQ.
+Para executar os testes, execute o comando no terminal:
+```powershell
+go test ./...
+```
 
 ## Variáveis de Ambiente
 Crie um arquivo `.env` na raiz do diretório `worker` com as configurações necessárias.

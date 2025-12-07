@@ -19,7 +19,7 @@ API RESTful para gerenciamento de dados climáticos, construída com NestJS e Mo
 
 ## Testes
 OBS: Crie outro arquivo `.env.test` para configuração do ambiente de testes com os mesmos parâmetros do `.env`.
-- **Testes e2e**: Todos os fluxos da aplicação estão cobertos por testes end-to-end para cobrir a 
+- **Testes e2e**: Todos os fluxos da aplicação estão cobertos por testes end-to-end para cobrir as principais funcionalidades
 - **Testes unitários**: Controllers possuem testes unitários para garantir a conexão com suas services
 
 ## Variáveis de Ambiente
