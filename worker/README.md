@@ -25,6 +25,11 @@ Crie um arquivo `.env` na raiz do diretório `worker` com as configurações nec
 RABBITMQ_CONNECTION_URL=<URL para o RabbitMQ>
 BACKEND_URL=<URL para o backend>
 ```
+```env
+#exemplo
+RABBITMQ_CONNECTION_URL="amqp://guest:guest@localhost:5672/"
+BACKEND_URL=http://localhost:3000
+```
 
 ## Scripts Disponíveis
 ```powershell
